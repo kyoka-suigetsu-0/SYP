@@ -6,7 +6,7 @@ const router = express.Router()
 
 
 router.post("/register", registerUser);
-router.get("/login", login);
+router.post("/login", login);
 
 router.post("/profile", verifyUser, (req, res) => {
     res.json({

@@ -19,9 +19,24 @@ import adminRoutes from "./routes/admin.route.js"
 dotenv.config()
 
 const app = express();
+app.use((req, res, next) => {
+    const allowedOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+
+    res.header("Access-Control-Allow-Origin", allowedOrigin);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204);
+    }
+
+    return next();
+})
+
 app.use(express.json())
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 
 app.get("/", (req, res)=> {
     res.send("Hamro Sawari Server Running")
